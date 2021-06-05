@@ -7,9 +7,8 @@ use Doctrine\ORM\Mapping as ORM;
 /**
  * HasLienspagectBdpm
  *
- * @ORM\Entity(repositoryClass="App\Repository\ClassNameRepository")
+ * @ORM\Entity(repositoryClass="App\Repository\HasLienspagectBdpmRepository")
  * @ORM\Table(name="has_lienspagect_bdpm")
- * @ORM\Entity
  */
 class HasLienspagectBdpm
 {
