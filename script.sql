@@ -16,7 +16,7 @@ CREATE TABLE CIS_bdpm(
    titulaires VARCHAR(500),
    surveillanceRenforcée BIT,
    Constraint PK_codeCIS PRIMARY KEY(codeCIS)
-);
+)ENGINE=InnoDB;
 
 BULK INSERT CIS_bdpm
     FROM ''
@@ -37,7 +37,7 @@ CREATE TABLE CIS_CPD_bdpm(
    conditionPrescription_Delivrance_ VARCHAR(500),
    Constraint PK_CIS_CPD_bdpm PRIMARY KEY(codeCIS, conditionPrescription_Delivrance_),
    FOREIGN KEY(codeCIS) REFERENCES CIS_bdpm(codeCIS)
-);
+)ENGINE=InnoDB;
 
 
 BULK INSERT CIS_CPD_bdpm
@@ -67,7 +67,7 @@ CREATE TABLE CIS_COMPO_bdpm(
    Liaison_FT_SA SMALLINT,
    CONSTRAINT PK_CIS_COMPO_bdpm PRIMARY KEY(codeCIS, codeSubstance, Liaison_FT_SA, designationElementPharmaceutique),
    CONSTRAINT FK_CIS_COMPO_bdpm_CIS_bdpm FOREIGN KEY(codeCIS) REFERENCES CIS_bdpm(codeCIS)
-);
+)ENGINE=InnoDB;
 BULK INSERT CIS_COMPO_bdpm
     FROM 'C:\Users\victo\Dropbox\B2_epsi\30_projetGaber\BDD_medicament\Projet-b2-base_de_donnees_publique_des_medicaments-24-03-2021\.csv\CIS_COMPO_bdpm.csv'
     WITH
@@ -92,7 +92,7 @@ CREATE TABLE CIS_GENER_bdpm(
    numTri INT,
    CONSTRAINT PK_CIS_GENER_bdpm PRIMARY KEY(codeCIS, idGroupeGenerique),
    CONSTRAINT FK_CIS_GENER_bdpm_CIS_bdpm FOREIGN KEY(codeCIS) REFERENCES CIS_bdpm(codeCIS)
-);
+)ENGINE=InnoDB;
 BULK INSERT CIS_GENER_bdpm
     FROM 'C:\Users\victo\Dropbox\B2_epsi\30_projetGaber\BDD_medicament\Projet-b2-base_de_donnees_publique_des_medicaments-24-03-2021\.csv\CIS_GENER_bdpm.csv'
     WITH
@@ -117,7 +117,7 @@ CREATE TABLE CIS_InfoImportantes_AAAAMMJJhhmiss_bdpm(
    infoMessage VARCHAR(500),
    CONSTRAINT PK_CIS_InfoImportantes_AAAAMMJJhhmiss_bdpm PRIMARY KEY(codeCIS, dateDebutInformationSecurité, infoMessage),
    CONSTRAINT FK_CIS_InfoImportantes_AAAAMMJJhhmiss_bdpm_codeCIS FOREIGN KEY(codeCIS) REFERENCES CIS_bdpm(codeCIS)
-);
+)ENGINE=InnoDB;
 BULK INSERT CIS_InfoImportantes_AAAAMMJJhhmiss_bdpm
     FROM 'C:\Users\victo\Dropbox\B2_epsi\30_projetGaber\BDD_medicament\Projet-b2-base_de_donnees_publique_des_medicaments-24-03-2021\nouveaux .csv\CIS_InfoImportantes_2021.csv'
     WITH
@@ -136,7 +136,7 @@ CREATE TABLE HAS_LiensPageCT_bdpm(
    CodeDossierHAS VARCHAR(50),
    LienVersPagesAvisCT_ VARCHAR(500),
    CONSTRAINT PK_HAS_LiensPageCT_bdpm PRIMARY KEY(CodeDossierHAS)
-);
+)ENGINE=InnoDB;
 BULK INSERT HAS_LiensPageCT_bdpm
     FROM 'C:\Users\victo\Dropbox\B2_epsi\30_projetGaber\BDD_medicament\Projet-b2-base_de_donnees_publique_des_medicaments-24-03-2021\.csv\HAS_LiensPageCT_bdpm.csv'
     WITH
@@ -163,7 +163,7 @@ CREATE TABLE CIS_HAS(
    PRIMARY KEY(CodeDossierHAS, codeCIS, valeur),
    FOREIGN KEY(CodeDossierHAS) REFERENCES HAS_LiensPageCT_bdpm(CodeDossierHAS),
    FOREIGN KEY(codeCIS) REFERENCES CIS_bdpm(codeCIS)
-);
+)ENGINE=InnoDB;
 BULK INSERT CIS_HAS
     FROM 'C:\Users\victo\Dropbox\B2_epsi\30_projetGaber\CIS_HAS_ASMR_bdpm.csv'
     WITH
@@ -195,7 +195,7 @@ CREATE TABLE CIS_CIP_bdpm(
    
    CONSTRAINT PK_CIS_CIP_bdpm PRIMARY KEY(codeCIP7),
    CONSTRAINT FK_CIS_CIP_bdpm FOREIGN KEY(codeCIS) REFERENCES CIS_bdpm(codeCIS)
-);
+)ENGINE=InnoDB;
 BULK INSERT CIS_CIP_bdpm
     FROM 'C:\Users\victo\Dropbox\B2_epsi\30_projetGaber\BDD_medicament\Projet-b2-base_de_donnees_publique_des_medicaments-24-03-2021\.csv\CIS_CIP_bdpm.csv'
     WITH
