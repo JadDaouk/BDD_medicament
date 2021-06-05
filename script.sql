@@ -112,13 +112,33 @@ CREATE TABLE CIS_InfoImportantes_AAAAMMJJhhmiss_bdpm(
    codeCIS INT,
    dateDebutInformationSecurité DATE,
    dateFinInformationSecurité DATE,
-   texteA_Afficher_LienVersInformationSecurité VARCHAR(500),
-   texteA_Afficher_LienVersInformationSecuritéBis VARCHAR(500),
-   CONSTRAINT PK_CIS_InfoImportantes_AAAAMMJJhhmiss_bdpm PRIMARY KEY(codeCIS, dateDebutInformationSecurité, texteA_Afficher_LienVersInformationSecurité, texteA_Afficher_LienVersInformationSecuritéBis),
+   titre VARCHAR(500),
+   href VARCHAR(500),
+   infoMessage VARCHAR(500),
+   CONSTRAINT PK_CIS_InfoImportantes_AAAAMMJJhhmiss_bdpm PRIMARY KEY(codeCIS, dateDebutInformationSecurité, infoMessage),
    CONSTRAINT FK_CIS_InfoImportantes_AAAAMMJJhhmiss_bdpm_codeCIS FOREIGN KEY(codeCIS) REFERENCES CIS_bdpm(codeCIS)
 );
 BULK INSERT CIS_InfoImportantes_AAAAMMJJhhmiss_bdpm
-    FROM 'C:\Users\victo\Dropbox\B2_epsi\30_projetGaber\filenames.csv'
+    FROM 'C:\Users\victo\Dropbox\B2_epsi\30_projetGaber\BDD_medicament\Projet-b2-base_de_donnees_publique_des_medicaments-24-03-2021\nouveaux .csv\CIS_InfoImportantes_2021.csv'
+    WITH
+    (
+	CODEPAGE = '65001', --utf8
+	FORMAT = 'CSV', 
+    FIELDQUOTE = '"',
+    FIRSTROW = 1,
+    FIELDTERMINATOR = ';',  --CSV field delimiter
+    ROWTERMINATOR = '\n',   --Use to shift the control to next row
+    TABLOCK
+);
+
+
+CREATE TABLE HAS_LiensPageCT_bdpm(
+   CodeDossierHAS VARCHAR(50),
+   LienVersPagesAvisCT_ VARCHAR(500),
+   CONSTRAINT PK_HAS_LiensPageCT_bdpm PRIMARY KEY(CodeDossierHAS)
+);
+BULK INSERT HAS_LiensPageCT_bdpm
+    FROM 'C:\Users\victo\Dropbox\B2_epsi\30_projetGaber\BDD_medicament\Projet-b2-base_de_donnees_publique_des_medicaments-24-03-2021\.csv\HAS_LiensPageCT_bdpm.csv'
     WITH
     (
 	CODEPAGE = '65001', --utf8
@@ -132,38 +152,52 @@ BULK INSERT CIS_InfoImportantes_AAAAMMJJhhmiss_bdpm
 
 
 
-
-
-
-
-
-
+CREATE TABLE CIS_HAS(
+   codeCIS INT,
+   CodeDossierHAS VARCHAR(50),
+   motifEvaluation VARCHAR(500),
+   dateAvisCimmissionTransparence DATE,
+   valeur VARCHAR(50),
+   libelle VARCHAR(5000),
+   ASMR_SMR VARCHAR(5) CHECK( ASMR_SMR = 'ASMR' OR ASMR_SMR ='SMR'),
+   PRIMARY KEY(CodeDossierHAS, codeCIS, valeur),
+   FOREIGN KEY(CodeDossierHAS) REFERENCES HAS_LiensPageCT_bdpm(CodeDossierHAS),
+   FOREIGN KEY(codeCIS) REFERENCES CIS_bdpm(codeCIS)
+);
+BULK INSERT CIS_HAS
+    FROM 'C:\Users\victo\Dropbox\B2_epsi\30_projetGaber\CIS_HAS_ASMR_bdpm.csv'
+    WITH
+    (
+	CODEPAGE = '65001', --utf8
+	FORMAT = 'CSV', 
+    FIELDQUOTE = '"',
+    FIRSTROW = 1,
+    FIELDTERMINATOR = ';',  --CSV field delimiter
+    ROWTERMINATOR = '\n',   --Use to shift the control to next row
+    TABLOCK
+);
 
 ---BUG CSV TOO MANY DATA---
----
----
----
----
----
----
+---CVS corrected 
+--
 CREATE TABLE CIS_CIP_bdpm(
    codeCIS INT NOT NULL,
-   codeCIP7 DECIMAL(7,0),
+   codeCIP7 INT,
    libellePresentation VARCHAR(500),
    statutAdministratifPresentation VARCHAR(500),
-   etatCommercialisationPresentationTelDeclareParTitulaireDeAMM VARCHAR(50),
+   etatCommercialisationPresentationTelDeclareParTitulaireDeAMM VARCHAR(500),
    dateDeclarationCommercialisation DATE,
    codeCIP13 BIGINT,
-   agrementAuxCollectivites VARCHAR(50) CHECK (agrementAuxCollectivites = 'oui' OR agrementAuxCollectivites = 'non' OR agrementAuxCollectivites = 'inconnu'),
-   tauxRemboursement INT,
-   prixMedicament FLOAT,
-   indicationsOuvrantDroitRemboursement VARCHAR(500),
+   agrementAuxCollectivites VARCHAR(50),
+   tauxRemboursement DECIMAL(10,2),
+   prixMedicament DECIMAL(20,2),
+   indicationsOuvrantDroitRemboursement VARCHAR(2000),
    
    CONSTRAINT PK_CIS_CIP_bdpm PRIMARY KEY(codeCIP7),
    CONSTRAINT FK_CIS_CIP_bdpm FOREIGN KEY(codeCIS) REFERENCES CIS_bdpm(codeCIS)
 );
 BULK INSERT CIS_CIP_bdpm
-    FROM 'C:\Users\victo\Dropbox\B2_epsi\30_projetGaber\BDD_medicament\Projet-b2-base_de_donnees_publique_des_medicaments-24-03-2021\nouveaux .csv\CIS_CIP_bdpm.csv'
+    FROM 'C:\Users\victo\Dropbox\B2_epsi\30_projetGaber\BDD_medicament\Projet-b2-base_de_donnees_publique_des_medicaments-24-03-2021\.csv\CIS_CIP_bdpm.csv'
     WITH
     (
 	CODEPAGE = '65001', --demander explication
