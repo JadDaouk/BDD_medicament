@@ -53,10 +53,23 @@ class CisCipBdpmRepository extends ServiceEntityRepository
         $conn = $this->getEntityManager()->getConnection();
 
         $sql = "
-        SELECT IFNULL(tauxRemboursement, 0) TAUX_REMBOURSEMENT, IFNULL(AVG(prixMedicament2),0) PRIX_MOYEN_MEDICAMENT FROM CIS_CIP_BDPM GROUP BY CIS_CIP_bdpm.tauxRemboursement;
+        SELECT tauxRemboursement TAUX_REMBOURSEMENT, AVG(prixMedicament2) PRIX_MOYEN_MEDICAMENT FROM CIS_CIP_BDPM GROUP BY CIS_CIP_bdpm.tauxRemboursement HAVING AVG(prixMedicament2) IS NOT NULL ORDER BY CIS_CIP_bdpm.tauxRemboursement DESC;
         ";
         $stmt = $conn->prepare($sql);
 
         return $stmt->executeQuery()->fetchAllAssociative();
     }
+
+    public function FindNumberByRefundPercent() : array
+    {
+        $conn = $this->getEntityManager()->getConnection();
+
+        $sql = "        
+        SELECT tauxRemboursement, COUNT(*) number FROM CIS_CIP_bdpm GROUP BY tauxRemboursement ORDER BY tauxRemboursement DESC ;
+        ";
+        $stmt = $conn->prepare($sql);
+
+        return $stmt->executeQuery()->fetchAllAssociative();
+    }
+
 }

@@ -53,12 +53,37 @@ class CisHasRepository extends ServiceEntityRepository
         $conn = $this->getEntityManager()->getConnection();
 
         $sql = "
-        SELECT YEAR(dateAvisCimmissionTransparence) year, COUNT(*) number 
+        SELECT YEAR(dateAvisCommissionTransparence) year, COUNT(*) number 
         FROM CIS_HAS
-        GROUP BY YEAR(dateAvisCimmissionTransparence) ORDER BY YEAR(dateAvisCimmissionTransparence) DESC;
+        GROUP BY YEAR(dateAvisCommissionTransparence)
+        ORDER BY YEAR(dateAvisCommissionTransparence) DESC;
         ";
         $stmt = $conn->prepare($sql);
 
         return $stmt->executeQuery()->fetchAllAssociative();
     }
+
+    public function FindSMRSuggestNumber()
+    {
+        $conn = $this->getEntityManager()->getConnection();
+
+        $sql = "
+        SELECT COUNT(*) FROM cis_has where valeur not like 'insuffisant' AND ASMR_SMR = 'SMR';";
+        $stmt = $conn->prepare($sql);
+
+        return $stmt->executeQuery()->fetchOne();
+    }
+
+    public function FindASMRSuggestNumberLevelV()
+    {
+        $conn = $this->getEntityManager()->getConnection();
+
+        $sql = "
+        SELECT COUNT(*) FROM cis_has where valeur = 'V' AND ASMR_SMR = 'ASMR';";
+        $stmt = $conn->prepare($sql);
+
+        return $stmt->executeQuery()->fetchOne();
+    }
+
+
 }

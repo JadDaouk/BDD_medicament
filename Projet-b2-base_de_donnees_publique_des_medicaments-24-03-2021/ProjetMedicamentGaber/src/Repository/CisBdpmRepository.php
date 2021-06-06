@@ -72,4 +72,21 @@ class CisBdpmRepository extends ServiceEntityRepository
         return $stmt->executeQuery()->fetchOne();
     }
 
+    public function FindCommercializedDrugsByYears() : array
+    {
+        $conn = $this->getEntityManager()->getConnection();
+
+        $sql = "
+        SELECT YEAR(cis_bdpm.dateAMM) year, COUNT(*) number
+        FROM cis_bdpm
+        WHERE cis_bdpm.etatCommercialisation LIKE 'Commercialis%'
+        GROUP BY YEAR(cis_bdpm.dateAMM)
+        ORDER BY YEAR(cis_bdpm.dateAMM) DESC;
+        ";
+        $stmt = $conn->prepare($sql);
+
+        return $stmt->executeQuery()->fetchAllAssociative();
+    }
+
+
 }
