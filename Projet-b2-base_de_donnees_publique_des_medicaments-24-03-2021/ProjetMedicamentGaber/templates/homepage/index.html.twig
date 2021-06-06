@@ -1,0 +1,149 @@
+{% extends 'base.html.twig' %}
+
+{% block stylesheets %}
+    <link rel="stylesheet" href="{{asset("css/homepage.css")}}">
+{% endblock %}
+
+{% block javascripts %}
+{% endblock %}
+
+
+{% block title %}Accueil{% endblock %}
+
+{% block body %}
+
+    {% include 'composants/header.html.twig' %}
+
+    <div class = "alignCards d-flex flex-wrap">
+        <div class="card ml-2 mr-2 mb-4 d-flex flex-column" style="width: 40rem; height: 26rem">
+            <div class="card-body text-center d-flex flex-column">
+                <div class="h1">
+                    <i class="fas fa-pills"></i> Nombre de médicaments commercialisé
+                </div>
+                <div class="display-3 text-black-50 mt-5">
+                    <u>{{ commercializedDrugsNumber }}</u> médicament(s)
+                </div>
+            </div>
+        </div>
+        <div class="card ml-2 mr-2 mb-4 d-flex flex-column" style="width: 40rem; height: 26rem">
+            <div class="card-body text-center d-flex flex-column">
+                <div class="h1">
+                    <i class="fas fa-exclamation-triangle"></i> Nombre de médicaments sous surveillance renforcé et commercialisé
+                </div>
+                <div class="display-3 text-black-50 mt-5">
+                    <u>{{ commercializedDrugsOnReinforcedSurveillanceNumber }}</u> médicament(s)
+                </div>
+            </div>
+        </div>
+        <div class="card ml-2 mr-2 mb-4 d-flex flex-column" style="width: 40rem; height: 26rem">
+            <div class="card-body text-center d-flex flex-column">
+                <div class="h1">Prix moyen des médicaments en fonction du taux de remboursement</div>
+                <div class="table-responsive">
+                    <table class="table">
+                        <thead>
+                        <tr>
+                            <th scope="col">Taux de remboursement</th>
+                            <th scope="col">Prix moyen</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        {% for values in avgPriceByRefundPercent %}
+                            <tr>
+                                <th scope="row">{{ values.TAUX_REMBOURSEMENT*100 }} %</th>
+                                <td>{{ values.PRIX_MOYEN_MEDICAMENT|number_format(2, '.', ',') }} €</td>
+                            </tr>
+                        {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+        <div class="card ml-2 mr-2 mb-4 d-flex flex-column" style="width: 40rem; height: 26rem">
+            <div class="card-body text-center d-flex flex-column">
+                <div class="h1">Nombre d'avis de la commission ASMR par année</div>
+                <div class="table-responsive">
+                    <table class="table">
+                        <thead>
+                        <tr>
+                            <th scope="col">Année</th>
+                            <th scope="col">Nombre d'avis de la commission ASMR</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        {% for values in ASMRSuggestNumberByYear %}
+                            <tr>
+                                <td>{{ values.year }}</td>
+                                <td>{{ values.number }}</td>
+                            </tr>
+                        {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+        <div class="card ml-2 mr-2 mb-4 d-flex flex-column" style="width: 40rem; height: 26rem">
+            <div class="card-body text-center d-flex flex-column">
+                <div class="h1"><i class="fas fa-pills"></i> Nombre de médicaments ayant un avis favorable de SMR</div>
+                <div class="display-3 text-black-50 mt-5">
+                    <u>{{ SMRSuggestNumber }}</u> médicament(s)
+                </div>
+            </div>
+        </div>
+        <div class="card ml-2 mr-2 mb-4 d-flex flex-column" style="width: 40rem; height: 26rem">
+            <div class="card-body text-center d-flex flex-column">
+                <div class="h1"><i class="fas fa-pills"></i> Nombre de médicaments ayant un niveau insuffisant d’ASMR</div>
+                <div class="display-3 text-black-50 mt-5">
+                    <u>{{ FindASMRSuggestNumberLevelV }}</u> médicament(s)
+                </div>
+            </div>
+        </div>
+        <div class="card ml-2 mr-2 mb-4 d-flex flex-column" style="width: 40rem; height: 26rem">
+            <div class="card-body text-center d-flex flex-column">
+                <div class="h1">Nombre de médicaments par taux de remboursement</div>
+                <div class="table-responsive">
+                    <table class="table">
+                        <thead>
+                        <tr>
+                            <th scope="col">Taux de remboursement</th>
+                            <th scope="col">Nombre de médicament(s)</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        {% for values in FindNumberByRefundPercent %}
+                            <tr>
+                                <td>{{ values.tauxRemboursement*100 }} %</td>
+                                <td>{{ values.number }}</td>
+                            </tr>
+                        {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+        <div class="card ml-2 mr-2 mb-4 d-flex flex-column" style="width: 40rem; height: 26rem">
+            <div class="card-body text-center d-flex flex-column">
+                <div class="h1">Évolution de la commercialisation des médicaments dans le temps</div>
+                <div class="table-responsive">
+                    <table class="table">
+                        <thead>
+                        <tr>
+                            <th scope="col">Année</th>
+                            <th scope="col">Nombre de médicament(s)</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        {% for values in FindCommercializedDrugsByYears %}
+                            <tr>
+                                <td>{{ values.year }}</td>
+                                <td>{{ values.number }}</td>
+                            </tr>
+                        {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+
+{% endblock %}

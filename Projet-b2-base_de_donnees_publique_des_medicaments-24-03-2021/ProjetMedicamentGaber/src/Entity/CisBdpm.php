@@ -9,8 +9,7 @@ use Doctrine\ORM\Mapping as ORM;
  *
  *
  * @ORM\Table(name="cis_bdpm")
- * @ORM\Entity(repositoryClass="App\Repository\ClassNameRepository")
- * @ORM\Entity
+ * @ORM\Entity (repositoryClass="App\Repository\CisBdpmRepository")
  */
 class CisBdpm
 {
