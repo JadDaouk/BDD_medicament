@@ -47,4 +47,16 @@ class CisCipBdpmRepository extends ServiceEntityRepository
         ;
     }
     */
+
+    public function FindAvgPriceByRefundPercent() : array
+    {
+        $conn = $this->getEntityManager()->getConnection();
+
+        $sql = "
+        SELECT IFNULL(tauxRemboursement, 0) TAUX_REMBOURSEMENT, IFNULL(AVG(prixMedicament2),0) PRIX_MOYEN_MEDICAMENT FROM CIS_CIP_BDPM GROUP BY CIS_CIP_bdpm.tauxRemboursement;
+        ";
+        $stmt = $conn->prepare($sql);
+
+        return $stmt->executeQuery()->fetchAllAssociative();
+    }
 }

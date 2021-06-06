@@ -5,3 +5,9 @@
     align-items: center;
     margin: 2em;
 }
+
+table th{
+    position: sticky;
+    top: 0;
+    background: white;
+}

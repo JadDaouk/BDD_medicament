@@ -40,7 +40,51 @@
         <div class="card ml-2 mr-2 mb-4 d-flex flex-column" style="width: 40rem; height: 26rem">
             <div class="card-body text-center d-flex flex-column">
                 <div class="h3">
-                    Nombre de médicaments
+                    Prix moyen des médicaments en fonction du taux de remboursement
+                </div>
+                <div class="table-responsive">
+                    <table class="table">
+                        <thead>
+                        <tr>
+                            <th scope="col">Taux de remboursement</th>
+                            <th scope="col">Prix moyen</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        {% for values in avgPriceByRefundPercent %}
+                            <tr>
+                                <th scope="row">{{ values.TAUX_REMBOURSEMENT*100 }} %</th scope="row">
+                                <td>{{ values.PRIX_MOYEN_MEDICAMENT|number_format(2, '.', ',') }} €</td>
+                            </tr>
+                        {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+        <div class="card ml-2 mr-2 mb-4 d-flex flex-column" style="width: 40rem; height: 26rem">
+            <div class="card-body text-center d-flex flex-column">
+                <div class="h3">
+                    Nombre d'avis de la commission ASMR par année
+                </div>
+                <div class="table-responsive">
+                    <table class="table">
+                        <thead>
+                        <tr>
+                            <th scope="col">Année</th>
+                            <th scope="col">Nombre d'avis de la commission ASMR</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        {% for values in ASMRSuggestNumberByYear %}
+                            <tr>
+                                <td>{{ values.year }}</td>
+                                <td>{{ values.number }}</td>
+                            </tr>
+                        {% endfor %}
+                        </tbody>
+                    </table>
                 </div>
             </div>
         </div>

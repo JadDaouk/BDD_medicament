@@ -47,4 +47,18 @@ class CisHasRepository extends ServiceEntityRepository
         ;
     }
     */
+
+    public function FindASMRSuggestNumberByYear() : array
+    {
+        $conn = $this->getEntityManager()->getConnection();
+
+        $sql = "
+        SELECT YEAR(dateAvisCimmissionTransparence) year, COUNT(*) number 
+        FROM CIS_HAS
+        GROUP BY YEAR(dateAvisCimmissionTransparence) ORDER BY YEAR(dateAvisCimmissionTransparence) DESC;
+        ";
+        $stmt = $conn->prepare($sql);
+
+        return $stmt->executeQuery()->fetchAllAssociative();
+    }
 }
